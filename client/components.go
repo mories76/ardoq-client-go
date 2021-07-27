@@ -110,8 +110,6 @@ func (c *RESTComponentsClient) Update(ctx context.Context, id string, req Compon
 	res := &Component{}
 	errResponse := new(Error)
 
-	// TODO: first receive component body, then update with updated elemenets, POST body
-
 	resp, err := c.restClient().Patch("component/"+id).
 		//BodyJSON(&req).
 		BodyProvider(ardoqBodyProvider{request: req, fields: req.Fields}).

@@ -35,5 +35,4 @@ type Workspace struct {
 // WorkspaceSearchQuery is the query used to search for workspaces
 type WorkspaceSearchQuery struct {
 	Name string `url:"name,omitempty"`
-	// Org  string `url:"org,omitempty"`
 }

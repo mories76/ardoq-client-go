@@ -10,7 +10,6 @@ import (
 type WorkspacesClient interface {
 	Get(ctx context.Context, id string) (*Workspace, error)
 	Search(ctx context.Context, req *WorkspaceSearchQuery) (*Workspace, error)
-	// List(ctx context.Context, req *WorkspaceSearchQuery) (*Workspaces, error)
 	List(ctx context.Context, req *WorkspaceSearchQuery) (*[]Workspace, error)
 }
 
