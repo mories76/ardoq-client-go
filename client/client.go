@@ -13,19 +13,9 @@ import (
 )
 
 const (
-	// MajorVersion is the major version
-	MajorVersion = 0
-	// MinorVersion is the minor version
-	MinorVersion = 1
-	// PatchVersion is the patch version
-	PatchVersion = 0
-
 	// UserAgentPrefix is the prefix of the User-Agent header that all terraform REST calls perform
 	UserAgentPrefix = "terraform-provider-ardoq"
 )
-
-// Version is the semver of this provider
-var Version = fmt.Sprintf("%d.%d.%d", MajorVersion, MinorVersion, PatchVersion)
 
 // Custom ardoq error response handler
 type Error struct {
@@ -56,6 +46,7 @@ type APIClient struct {
 	baseURI string
 	apiKey  string
 	org     string
+	version string
 }
 
 var _ Client = &APIClient{}
@@ -79,11 +70,12 @@ type OptFunc func(c *APIClient) error
 // }
 
 // NewRestClient initializes a new API client for Ardoq
-func NewRestClient(baseURI, apiKey, org string, opts ...OptFunc) (*APIClient, error) {
+func NewRestClient(baseURI, apiKey, org, version string, opts ...OptFunc) (*APIClient, error) {
 	c := &APIClient{
 		baseURI: baseURI,
 		apiKey:  apiKey,
 		org:     org,
+		version: version,
 	}
 
 	for _, f := range opts {
@@ -101,7 +93,7 @@ func (c *APIClient) client() *sling.Sling {
 	}
 
 	return sling.New().Base(c.baseURI).
-		Set("User-Agent", fmt.Sprintf("%s (%s)", UserAgentPrefix, Version)).
+		Set("User-Agent", fmt.Sprintf("%s (%s)", UserAgentPrefix, c.version)).
 		Set("Authorization", fmt.Sprintf("Token token=%s", c.apiKey)).ResponseDecoder(ardoqDecoder{}).
 		QueryStruct(&OrgSearchQuery{Org: c.org})
 	// Doer(ardoqDoer{})
