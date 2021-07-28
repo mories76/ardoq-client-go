@@ -20,7 +20,7 @@ type Workspace struct {
 	LastModifiedByEmail string                 `mapstructure:"lastModifiedByEmail"`
 	LastModifiedByName  string                 `mapstructure:"lastModifiedByName"`
 	LastUpdated         string                 `mapstructure:"lastupdated"`
-	LinkedWorkspaces    map[string]struct {
+	LinkedWorkspaces    struct {
 		Linked     []string `mapstructure:"linked"`
 		BackLinked []string `mapstructure:"backlinked"`
 	} `mapstructure:"linked-workspaces"`
