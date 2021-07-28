@@ -6,6 +6,7 @@ type Workspace struct {
 	} `mapstructure:"ardoq"`
 	CompCounter         int                    `mapstructure:"comp-counter"`
 	ComponentModel      string                 `mapstructure:"componentModel"`
+	ComponentTemplate   string                 `mapstructure:"componentTemplate"`
 	Created             string                 `mapstructure:"created"`
 	CreatedBy           string                 `mapstructure:"created-by"`
 	CreatedByEmail      string                 `mapstructure:"createdByEmail"`
