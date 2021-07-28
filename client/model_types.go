@@ -24,16 +24,10 @@ type Model struct {
 	MaxReferenceTypeKey int            `mapstructure:"maxReferenceTypeKey"`
 	Name                string         `mapstructure:"name"`
 	ReferenceTypes      ReferenceTypes `mapstructure:"referenceTypes"`
-	// Root                map[string]struct {
-	// 	Children []string `mapstructure:"children"`
-	// 	Name     string   `mapstructure:"name"`
-	// 	ID       string   `mapstructure:"id"`
-	// 	Icon     string   `mapstructure:"icon"`
-	// } `mapstructure:"root"`
-	ComponentTypes ComponentTypes `mapstructure:"root"`
-	StartView      string         `mapstructure:"startView"`
-	UseAsTemplate  bool           `mapstructure:"useAsTemplate"`
-	Version        int            `mapstructure:"_version"`
+	Root                ComponentTypes `mapstructure:"root"`
+	StartView           string         `mapstructure:"startView"`
+	UseAsTemplate       bool           `mapstructure:"useAsTemplate"`
+	Version             int            `mapstructure:"_version"`
 
 	Fields map[string]interface{} `mapstructure:",remain"`
 }
@@ -52,31 +46,31 @@ type ReferenceTypes map[string]struct {
 }
 
 type ComponentType struct {
-	Children      []string `mapstructure:"children"`
-	Color         string   `mapstructure:"color"`
-	Icon          string   `mapstructure:"icon"`
-	ID            string   `mapstructure:"id"`
-	Image         string   `mapstructure:"image"`
-	Index         string   `mapstructure:"index"`
-	Level         string   `mapstructure:"level"`
-	Name          string   `mapstructure:"name"`
-	Returns_value string   `mapstructure:"returnsValue"`
-	Shape         string   `mapstructure:"shape"`
-	Standard      string   `mapstructure:"standard"`
+	Children      ComponentTypes `mapstructure:"children"`
+	Color         string         `mapstructure:"color"`
+	Icon          string         `mapstructure:"icon"`
+	ID            string         `mapstructure:"id"`
+	Image         string         `mapstructure:"image"`
+	Index         string         `mapstructure:"index"`
+	Level         string         `mapstructure:"level"`
+	Name          string         `mapstructure:"name"`
+	Returns_value string         `mapstructure:"returnsValue"`
+	Shape         string         `mapstructure:"shape"`
+	Standard      string         `mapstructure:"standard"`
 }
 
 type ComponentTypes map[string]struct {
-	Children      []string `mapstructure:"children"`
-	Color         string   `mapstructure:"color"`
-	Icon          string   `mapstructure:"icon"`
-	ID            string   `mapstructure:"id"`
-	Image         string   `mapstructure:"image"`
-	Index         string   `mapstructure:"index"`
-	Level         string   `mapstructure:"level"`
-	Name          string   `mapstructure:"name"`
-	Returns_value string   `mapstructure:"returnsValue"`
-	Shape         string   `mapstructure:"shape"`
-	Standard      string   `mapstructure:"standard"`
+	Children      ComponentTypes `mapstructure:"children"`
+	Color         string         `mapstructure:"color"`
+	Icon          string         `mapstructure:"icon"`
+	ID            string         `mapstructure:"id"`
+	Image         string         `mapstructure:"image"`
+	Index         string         `mapstructure:"index"`
+	Level         string         `mapstructure:"level"`
+	Name          string         `mapstructure:"name"`
+	Returns_value string         `mapstructure:"returnsValue"`
+	Shape         string         `mapstructure:"shape"`
+	Standard      string         `mapstructure:"standard"`
 }
 
 // this function is not being used yet.
@@ -84,19 +78,37 @@ type ComponentTypes map[string]struct {
 func (m Model) GetComponentTypes() map[string]ComponentType {
 	result := make(map[string]ComponentType)
 
-	for _, v := range m.ComponentTypes {
+	for _, v := range m.Root {
 		result[v.Name] = v
 	}
 	return result
 }
 
-func (m Model) GetComponentTypeID() map[string]string {
-	result := make(map[string]string)
-
-	for _, v := range m.ComponentTypes {
-		result[v.Name] = v.ID
+// FIX this doesn't seem very efficient
+func ComponentTypeGetChildren(root ComponentTypes) map[string]string {
+	ComponentTypes := make(map[string]string)
+	for _, r := range root {
+		ComponentTypes[r.Name] = r.ID
+		if len(r.Children) > 0 {
+			for k, v := range ComponentTypeGetChildren(r.Children) {
+				//
+				ComponentTypes[k] = v
+			}
+		}
 	}
-	return result
+	return ComponentTypes
+}
+
+func (m Model) GetComponentTypeID() map[string]string {
+	// result := make(map[string]string)
+
+	// TODO make this function traverse the root until v.Name is found
+	// for example model 19ea590239001b064dbc878d and component p1575623714660
+	// for _, v := range m.Root {
+	// 	result[v.Name] = v.ID
+	// }
+
+	return ComponentTypeGetChildren(m.Root)
 }
 
 // rewrite the input "map[string]struct" with attributes Name and ID
