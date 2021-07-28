@@ -30,7 +30,7 @@ func (c *RESTWorkspacesClient) Get(ctx context.Context, id string) (*Workspace, 
 	res := &Workspace{}
 	errResponse := new(Error)
 
-	resp, err := c.restClient().Get("workspaces/"+id).Receive(res, errResponse)
+	resp, err := c.restClient().Get("workspace/"+id).Receive(res, errResponse)
 	if err != nil {
 		return nil, errors.Wrap(err, "could not get workspace")
 	}
