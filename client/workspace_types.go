@@ -20,8 +20,12 @@ type Workspace struct {
 	LastModifiedByEmail string                 `mapstructure:"lastModifiedByEmail"`
 	LastModifiedByName  string                 `mapstructure:"lastModifiedByName"`
 	LastUpdated         string                 `mapstructure:"lastupdated"`
-	Name                string                 `mapstructure:"name"`
-	Origin              struct {
+	LinkedWorkspaces    map[string]struct {
+		Linked     []string `mapstructure:"linked"`
+		BackLinked []string `mapstructure:"backlinked"`
+	} `mapstructure:"linked-workspaces"`
+	Name   string `mapstructure:"name"`
+	Origin struct {
 		EntityType string `mapstructure:"entity-type"`
 	} `mapstructure:"origin"`
 	StartView    string   `mapstructure:"startView"`
