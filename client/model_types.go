@@ -7,6 +7,7 @@ type Model struct {
 		OutgoingReferenceCount int         `mapstructure:"outgoingReferenceCount"`
 		Persistent             interface{} `mapstructure:"persistent"`
 	} `mapstructure:"ardoq"`
+	ArdoqPersistent     []interface{}  `mapstructure:"ardoq-persistent"`
 	BlankTemplate       bool           `mapstructure:"blankTemplate"`
 	Category            string         `mapstructure:"category"`
 	Created             string         `mapstructure:"created"`
