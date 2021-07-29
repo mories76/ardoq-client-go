@@ -44,6 +44,10 @@ type Model struct {
 			} `mapstructure:"ardoq"`
 		} `mapstructure:"used-by"`
 	} `mapstructure:"workspaces"`
+	Origin struct {
+		ID      string `mapstructure:"id"`
+		Version int    `mapstructure:"_version"`
+	}
 
 	Fields map[string]interface{} `mapstructure:",remain"`
 }
