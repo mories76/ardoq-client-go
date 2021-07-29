@@ -31,19 +31,19 @@ type Model struct {
 	UseAsTemplate       bool           `mapstructure:"useAsTemplate"`
 	Version             int            `mapstructure:"_version"`
 	Workspaces          struct {
-		Restricted int `json:"restricted"`
+		Restricted int `mapstructure:"restricted"`
 		UsedBy     []struct {
-			ID                  string `json:"_id"`
-			Name                string `json:"name"`
-			CreatedByName       string `json:"createdByName"`
-			CreatedByEmail      string `json:"createdByEmail"`
-			LastModifiedByName  string `json:"lastModifiedByName"`
-			LastModifiedByEmail string `json:"lastModifiedByEmail"`
+			ID                  string `mapstructure:"_id"`
+			Name                string `mapstructure:"name"`
+			CreatedByName       string `mapstructure:"createdByName"`
+			CreatedByEmail      string `mapstructure:"createdByEmail"`
+			LastModifiedByName  string `mapstructure:"lastModifiedByName"`
+			LastModifiedByEmail string `mapstructure:"lastModifiedByEmail"`
 			Ardoq               struct {
-				EntityType string `json:"entity-type"`
-			} `json:"ardoq"`
-		} `json:"used-by"`
-	} `json:"workspaces"`
+				EntityType string `mapstructure:"entity-type"`
+			} `mapstructure:"ardoq"`
+		} `mapstructure:"used-by"`
+	} `mapstructure:"workspaces"`
 
 	Fields map[string]interface{} `mapstructure:",remain"`
 }
