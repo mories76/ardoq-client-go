@@ -42,6 +42,7 @@ type Component struct {
 	Fields map[string]interface{} `mapstructure:",remain"`
 }
 
+// TODO check if removeNull is nececary for other types like models, references or workspaces
 func (c Component) GetFields() map[string]interface{} {
 	if len(c.Fields) > 0 {
 		removeNulls(c.Fields)
