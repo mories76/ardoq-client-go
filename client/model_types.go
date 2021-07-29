@@ -10,7 +10,7 @@ type Model struct {
 	ArdoqPersistent     []interface{}  `mapstructure:"ardoq-persistent"`
 	BlankTemplate       bool           `mapstructure:"blankTemplate"`
 	Category            string         `mapstructure:"category"`
-	Common              bool           `mapstructure:"bool"`
+	Common              bool           `mapstructure:"common"`
 	Created             string         `mapstructure:"created"`
 	CreatedBy           string         `mapstructure:"created-by"`
 	CreatedByEmail      string         `mapstructure:"createdByEmail"`
