@@ -42,12 +42,13 @@ type Component struct {
 	Fields map[string]interface{} `mapstructure:",remain"`
 }
 
-// func (c Component) GetFields() map[string]interface{} {
-// 	if len(c.Fields) > 0 {
-// 		return c.Fields
-// 	}
-// 	return nil
-// }
+func (c Component) GetFields() map[string]interface{} {
+	if len(c.Fields) > 0 {
+		removeNulls(c.Fields)
+		return c.Fields
+	}
+	return nil
+}
 
 type ComponentSearchQuery struct {
 	Workspace string `url:"workspace"`
