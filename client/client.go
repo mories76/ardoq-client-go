@@ -164,7 +164,7 @@ func (a ardoqBodyProvider) Body() (io.Reader, error) {
 	requestJson, _ := json.Marshal(a.request)
 
 	// create new map as destination for both Unmarshal methods to combine the data
-	flatRequest := make(map[string]string)
+	flatRequest := make(map[string]interface{})
 	json.Unmarshal(requestJson, &flatRequest)
 
 	if len(a.fields.(map[string]interface{})) > 0 {
