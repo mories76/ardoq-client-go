@@ -163,13 +163,15 @@ func (a ardoqBodyProvider) Body() (io.Reader, error) {
 	// marshal component
 	requestJson, _ := json.Marshal(a.request)
 
-	// marshal component.Fields
-	fieldsJson, _ := json.Marshal(a.fields)
-
 	// create new map as destination for both Unmarshal methods to combine the data
 	flatRequest := make(map[string]string)
 	json.Unmarshal(requestJson, &flatRequest)
-	json.Unmarshal(fieldsJson, &flatRequest)
+
+	if len(a.fields.(map[string]interface{})) > 0 {
+		// marshal component.Fields
+		fieldsJson, _ := json.Marshal(a.fields)
+		json.Unmarshal(fieldsJson, &flatRequest)
+	}
 
 	buf := &bytes.Buffer{}
 	err := json.NewEncoder(buf).Encode(flatRequest)
