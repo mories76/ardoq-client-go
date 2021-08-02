@@ -1,4 +1,4 @@
-package testapp
+package main
 
 import (
 	"context"
@@ -20,10 +20,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	cmp, err := a.Components().Search(context.TODO(), &ardoq.ComponentSearchQuery{Workspace: "", Name: ""})
-	if err != nil {
-		fmt.Printf("error during component search: %s", err)
+	if true {
+		workspace := "1551274144b0a61af921549a"
+		name := "myComponent"
+		cmp, err := a.Components().Search(context.TODO(), &ardoq.ComponentSearchQuery{Workspace: workspace, Name: name})
+		if err != nil {
+			fmt.Printf("error during component search: %s", err)
+		}
+		fmt.Printf("result of search component %v", cmp)
 	}
-	fmt.Printf("result of search component %v", cmp)
 
 }
