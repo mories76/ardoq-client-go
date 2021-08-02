@@ -17,7 +17,7 @@ const (
 	UserAgentPrefix = "terraform-provider-ardoq"
 )
 
-// Custom ardoq error response handler
+// Error Custom ardoq error response handler
 type Error struct {
 	Code    int
 	Message string      `json:"message"`
@@ -28,15 +28,17 @@ func (err Error) Error() string {
 	if err.Code == 0 {
 		return ""
 		// return nil
-	} else {
-		return fmt.Sprintf("ardoq error: \nstatuscode :%d\n%s %v", err.Code, err.Message, err.Data)
 	}
+	return fmt.Sprintf("ardoq error: \nstatuscode :%d\n%s %v", err.Code, err.Message, err.Data)
+
 }
 
+// Ok checks if the error code == 0
 func (err Error) Ok() bool {
 	return err.Code == 0
 }
 
+// NotOk check if err code != 0
 func (err Error) NotOk() bool {
 	return err.Code != 0
 }
@@ -51,6 +53,7 @@ type APIClient struct {
 
 var _ Client = &APIClient{}
 
+// Client exposes client
 type Client interface {
 	Components() ComponentsClient
 	Models() ModelsClient
@@ -161,16 +164,16 @@ func (a ardoqBodyProvider) Body() (io.Reader, error) {
 	// request := a.request.(ComponentRequest)
 
 	// marshal component
-	requestJson, _ := json.Marshal(a.request)
+	requestJSON, _ := json.Marshal(a.request)
 
 	// create new map as destination for both Unmarshal methods to combine the data
 	flatRequest := make(map[string]interface{})
-	json.Unmarshal(requestJson, &flatRequest)
+	json.Unmarshal(requestJSON, &flatRequest)
 
 	if len(a.fields.(map[string]interface{})) > 0 {
 		// marshal component.Fields
-		fieldsJson, _ := json.Marshal(a.fields)
-		json.Unmarshal(fieldsJson, &flatRequest)
+		fieldsJSON, _ := json.Marshal(a.fields)
+		json.Unmarshal(fieldsJSON, &flatRequest)
 	}
 
 	buf := &bytes.Buffer{}

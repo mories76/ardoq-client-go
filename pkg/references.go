@@ -7,6 +7,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+// ReferencesClient is an interface to the defined methods for references
 type ReferencesClient interface {
 	GetAll(ctx context.Context) (*[]Reference, error)
 
@@ -16,7 +17,7 @@ type ReferencesClient interface {
 	Delete(ctx context.Context, id string) error
 }
 
-// RESTModelClient implements the ModelClient interface
+// RESTReferencesClient implements the ReferencesClient interface
 type RESTReferencesClient struct {
 	client *APIClient
 }
@@ -27,7 +28,7 @@ func (c *RESTReferencesClient) restClient() *sling.Sling {
 	return c.client.client()
 }
 
-// List retrieves a list of References from the Ardoq API
+// GetAll retrieves a list of references
 func (c *RESTReferencesClient) GetAll(ctx context.Context) (*[]Reference, error) {
 	res := &[]Reference{}
 	errResponse := new(Error)
@@ -44,7 +45,7 @@ func (c *RESTReferencesClient) GetAll(ctx context.Context) (*[]Reference, error)
 	return res, nil
 }
 
-// ReferenceCreate creates a reference
+// Create creates a reference
 func (c *RESTReferencesClient) Create(ctx context.Context, req ReferenceRequest) (*Reference, error) {
 	res := &Reference{}
 	errResponse := new(Error)
@@ -64,7 +65,7 @@ func (c *RESTReferencesClient) Create(ctx context.Context, req ReferenceRequest)
 	return res, nil
 }
 
-// Get retrieves a model from the Ardoq API
+// Read retrieves a model from the Ardoq API
 func (c *RESTReferencesClient) Read(ctx context.Context, id string) (*Reference, error) {
 	res := &Reference{}
 	errResponse := new(Error)
@@ -81,7 +82,7 @@ func (c *RESTReferencesClient) Read(ctx context.Context, id string) (*Reference,
 	return res, nil
 }
 
-// ComopnentUpdate updates a reference
+// Update updates a reference
 func (c *RESTReferencesClient) Update(ctx context.Context, id string, req ReferenceRequest) (*Reference, error) {
 	// cmp := &ComponentResponse{}
 	res := &Reference{}
@@ -104,7 +105,7 @@ func (c *RESTReferencesClient) Update(ctx context.Context, id string, req Refere
 	return res, nil
 }
 
-// ComponentDelete deletes a component
+// Delete deletes a component
 func (c *RESTReferencesClient) Delete(ctx context.Context, id string) error {
 	errResponse := new(Error)
 

@@ -1,5 +1,6 @@
 package ardoq
 
+// Reference is the struct representation of the reference JSON
 type Reference struct {
 	Ardoq struct {
 		EntityType             string      `mapstructure:"entity-type"`
@@ -14,7 +15,7 @@ type Reference struct {
 	DisplayText         string                 `mapstructure:"displayText"`
 	Description         string                 `mapstructure:"description"`
 	ID                  string                 `mapstructure:"_id"`
-	Last_updated        string                 `mapstructure:"last-updated"`
+	LastUpdated2        string                 `mapstructure:"last-updated"`
 	LastModifiedBy      string                 `mapstructure:"last-modified-by"`
 	LastModifiedByName  string                 `mapstructure:"lastModifiedByName"`
 	LastModifiedByEmail string                 `mapstructure:"lastModifiedByEmail"`
@@ -30,6 +31,10 @@ type Reference struct {
 	Fields              map[string]interface{} `mapstructure:",remain"`
 }
 
+// ReferenceRequest is the payload for creating and updating a reference
+// Fields map has json tag "-" so that it doesn't get marshalled into JSON
+// the fields are being handled by the ardoqBodyProvider
+// URL: PATCH/POST /api/reference
 type ReferenceRequest struct {
 	Description     interface{}            `json:"description,omitempty"`
 	DisplayText     interface{}            `json:"displayText,omitempty"`
