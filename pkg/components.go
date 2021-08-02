@@ -7,6 +7,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+// ComponentsClient is an interface to the defined methods for components
 type ComponentsClient interface {
 	//Get(ctx context.Context, id string) (*Component, error)
 	Search(ctx context.Context, req *ComponentSearchQuery) (*[]Component, error)
@@ -18,7 +19,7 @@ type ComponentsClient interface {
 	Delete(ctx context.Context, id string) error
 }
 
-// RESTComponentsClient implements the WorkspacesClient interface
+// RESTComponentsClient implements the ComponentsClient interface
 type RESTComponentsClient struct {
 	client *APIClient
 }
@@ -29,7 +30,7 @@ func (c *RESTComponentsClient) restClient() *sling.Sling {
 	return c.client.client()
 }
 
-// List retrieves a list of components from the Ardoq API
+// Search retrieves a list of components based on ComponentSearchQuery
 // TODO: Check failure case
 func (c *RESTComponentsClient) Search(ctx context.Context, req *ComponentSearchQuery) (*[]Component, error) {
 	res := &[]Component{}
@@ -47,7 +48,7 @@ func (c *RESTComponentsClient) Search(ctx context.Context, req *ComponentSearchQ
 	return res, nil
 }
 
-// List retrieves a list of components based on a component query,
+// GetAll retrieves a list of all components
 // is not being used yet
 func (c *RESTComponentsClient) GetAll(ctx context.Context) (*[]Component, error) {
 	res := &[]Component{}
@@ -67,7 +68,7 @@ func (c *RESTComponentsClient) GetAll(ctx context.Context) (*[]Component, error)
 
 //////
 
-// ComponentCreate creates an component
+// Create creates an component
 func (c *RESTComponentsClient) Create(ctx context.Context, req ComponentRequest) (*Component, error) {
 	res := &Component{}
 	errResponse := new(Error)
@@ -104,7 +105,7 @@ func (c *RESTComponentsClient) Read(ctx context.Context, id string) (*Component,
 	return res, nil
 }
 
-// ComopnentUpdate updates a component
+// Update updates a component
 func (c *RESTComponentsClient) Update(ctx context.Context, id string, req ComponentRequest) (*Component, error) {
 	// cmp := &ComponentResponse{}
 	res := &Component{}
@@ -125,7 +126,7 @@ func (c *RESTComponentsClient) Update(ctx context.Context, id string, req Compon
 	return res, nil
 }
 
-// ComponentDelete deletes a component
+// Delete deletes a component
 func (c *RESTComponentsClient) Delete(ctx context.Context, id string) error {
 	errResponse := new(Error)
 

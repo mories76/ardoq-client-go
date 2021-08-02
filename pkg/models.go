@@ -7,12 +7,13 @@ import (
 	"github.com/pkg/errors"
 )
 
+// ModelsClient is an interface to the defined methods for components
 type ModelsClient interface {
 	GetAll(ctx context.Context) (*[]Model, error)
 	Read(ctx context.Context, id string) (*Model, error)
 }
 
-// RESTModelClient implements the ModelClient interface
+// RESTModelsClient implements the ModelsClient interface
 type RESTModelsClient struct {
 	client *APIClient
 }
@@ -23,7 +24,7 @@ func (c *RESTModelsClient) restClient() *sling.Sling {
 	return c.client.client()
 }
 
-// List retrieves a list of models from the Ardoq API
+// GetAll retrieves a list of all models
 func (c *RESTModelsClient) GetAll(ctx context.Context) (*[]Model, error) {
 	res := &[]Model{}
 	errResponse := new(Error)
@@ -40,7 +41,7 @@ func (c *RESTModelsClient) GetAll(ctx context.Context) (*[]Model, error) {
 	return res, nil
 }
 
-// Get retrieves a model from the Ardoq API
+// Read retrieves a model by its ID
 func (c *RESTModelsClient) Read(ctx context.Context, id string) (*Model, error) {
 	res := &Model{}
 	errResponse := new(Error)

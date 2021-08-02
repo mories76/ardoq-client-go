@@ -7,6 +7,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+// WorkspacesClient is an interface to the defined methods for references
 type WorkspacesClient interface {
 	Get(ctx context.Context, id string) (*Workspace, error)
 	Search(ctx context.Context, req *WorkspaceSearchQuery) (*Workspace, error)
@@ -24,7 +25,7 @@ func (c *RESTWorkspacesClient) restClient() *sling.Sling {
 	return c.client.client()
 }
 
-// Get retrieves a workspace from the Ardoq API
+// Get retrieves a workspace
 // TODO: Check failure case
 func (c *RESTWorkspacesClient) Get(ctx context.Context, id string) (*Workspace, error) {
 	res := &Workspace{}
@@ -42,7 +43,7 @@ func (c *RESTWorkspacesClient) Get(ctx context.Context, id string) (*Workspace, 
 	return res, nil
 }
 
-// List retrieves a list of workspaces from the Ardoq API
+// Search retrieves a list of workspaces
 func (c *RESTWorkspacesClient) Search(ctx context.Context, req *WorkspaceSearchQuery) (*Workspace, error) {
 	res := &Workspace{}
 	errResponse := new(Error)

@@ -1,5 +1,6 @@
 package ardoq
 
+// Component is the struct representation of the component JSON
 type Component struct {
 	Ardoq struct {
 		EntityType             string      `mapstructure:"entity-type"`
@@ -15,7 +16,7 @@ type Component struct {
 	CreatedByName       string      `mapstructure:"createdByName"`
 	Description         string      `mapstructure:"description"`
 	ID                  string      `mapstructure:"_id"`
-	Last_updated        string      `mapstructure:"last-updated"`
+	LastUpdated2        string      `mapstructure:"last-updated"`
 	LastModifiedBy      string      `mapstructure:"last-modified-by"`
 	LastModifiedByEmail string      `mapstructure:"lastModifiedByEmail"`
 	LastModifiedByName  string      `mapstructure:"lastModifiedByName"`
@@ -42,6 +43,7 @@ type Component struct {
 	Fields map[string]interface{} `mapstructure:",remain"`
 }
 
+// GetFields returns fields if there are any, and removes empty fields
 // TODO check if removeNull is nececary for other types like models, references or workspaces
 func (c Component) GetFields() map[string]interface{} {
 	if len(c.Fields) > 0 {
@@ -51,6 +53,7 @@ func (c Component) GetFields() map[string]interface{} {
 	return nil
 }
 
+// ComponentSearchQuery defines the query parameters for a component search
 type ComponentSearchQuery struct {
 	Workspace string `url:"workspace"`
 	// Field     string `url:"field,omitempty"`
@@ -59,8 +62,8 @@ type ComponentSearchQuery struct {
 	// Org       string `url:"org,omitempty"`
 }
 
-// ComponentRequest is the payload for creating and update a component
-// Fields map has json tag "-" so that it doesn't get marshalled into json
+// ComponentRequest is the payload for creating and updating a component
+// Fields map has json tag "-" so that it doesn't get marshalled into JSON
 // the fields are being handled by the ardoqBodyProvider
 // URL: PATCH/POST /api/component
 type ComponentRequest struct {

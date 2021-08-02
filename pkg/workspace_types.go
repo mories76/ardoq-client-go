@@ -1,5 +1,6 @@
 package ardoq
 
+// Workspace is the struct representation of the workspace JSON
 type Workspace struct {
 	Ardoq struct {
 		EntityType string `mapstructure:"entity-type"`
@@ -15,7 +16,7 @@ type Workspace struct {
 	DefaultPerspective  string                 `mapstructure:"defaultPerspective"`
 	Fields              map[string]interface{} `mapstructure:",remain"`
 	ID                  string                 `mapstructure:"_id"`
-	Last_updated        string                 `mapstructure:"last-updated"`
+	LastUpdated2        string                 `mapstructure:"last-updated"`
 	LastModifiedBy      string                 `mapstructure:"last-modified-by"`
 	LastModifiedByEmail string                 `mapstructure:"lastModifiedByEmail"`
 	LastModifiedByName  string                 `mapstructure:"lastModifiedByName"`
