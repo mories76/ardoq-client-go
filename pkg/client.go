@@ -134,10 +134,13 @@ func (a ardoqDecoder) Decode(resp *http.Response, v interface{}) error {
 	var data interface{}
 
 	/*err :=*/
-	json.Unmarshal(body, &data)
+	err := json.Unmarshal(body, &data)
+	if err != nil {
+		return err
+	}
 
 	// check if StatusCode is OK, if not add StatusCode to the Error
-	// so that ErrorReponse.Errors() return true, and the actual decoded respone get shown in terraform
+	// so that ErrorReponse.Errors() return true, and the actual decoded response get shown in terraform
 	if code := resp.StatusCode; 200 <= code && code <= 299 {
 	} else {
 		// apparently there's an error,
@@ -168,16 +171,22 @@ func (a ardoqBodyProvider) Body() (io.Reader, error) {
 
 	// create new map as destination for both Unmarshal methods to combine the data
 	flatRequest := make(map[string]interface{})
-	json.Unmarshal(requestJSON, &flatRequest)
+	err := json.Unmarshal(requestJSON, &flatRequest)
+	if err != nil {
+		return nil, err
+	}
 
 	if len(a.fields.(map[string]interface{})) > 0 {
 		// marshal component.Fields
 		fieldsJSON, _ := json.Marshal(a.fields)
-		json.Unmarshal(fieldsJSON, &flatRequest)
+		err = json.Unmarshal(fieldsJSON, &flatRequest)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	buf := &bytes.Buffer{}
-	err := json.NewEncoder(buf).Encode(flatRequest)
+	err = json.NewEncoder(buf).Encode(flatRequest)
 	if err != nil {
 		return nil, err
 	}
