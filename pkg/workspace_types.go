@@ -5,6 +5,7 @@ type Workspace struct {
 	Ardoq struct {
 		EntityType string `mapstructure:"entity-type"`
 	} `mapstructure:"ardoq"`
+	ArdoqPersistent     []interface{}          `mapstructure:"ardoq-persistent"`
 	CompCounter         int                    `mapstructure:"comp-counter"`
 	ComponentModel      string                 `mapstructure:"componentModel"`
 	ComponentTemplate   string                 `mapstructure:"componentTemplate"`
