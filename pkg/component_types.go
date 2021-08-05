@@ -48,7 +48,18 @@ type Component struct {
 func (c Component) GetFields() map[string]interface{} {
 	if len(c.Fields) > 0 {
 		removeNulls(c.Fields)
+		typeConversion(c.Fields)
 		return c.Fields
+	}
+	return nil
+}
+
+// GetFields returns fields if there are any, and removes empty fields
+// TODO check if removeNull is nececary for other types like models, references or workspaces
+func (c Component) GetConvertedFields() map[string]string {
+	if len(c.Fields) > 0 {
+		removeNulls(c.Fields)
+		return typeConversion(c.Fields)
 	}
 	return nil
 }
