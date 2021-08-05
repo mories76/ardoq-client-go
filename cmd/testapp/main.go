@@ -21,13 +21,19 @@ func main() {
 	}
 
 	if true {
-		workspace := "1551274144b0a61af921549a"
-		name := "myComponent"
-		cmp, err := a.Components().Search(context.TODO(), &ardoq.ComponentSearchQuery{Workspace: workspace, Name: name})
+		workspace := "d85f9d74393dd8cb053e7e09"
+		name := "myTerraformComponent2"
+		cmps, err := a.Components().Search(context.TODO(), &ardoq.ComponentSearchQuery{Workspace: workspace, Name: name})
 		if err != nil {
 			fmt.Printf("error during component search: %s", err)
 		}
-		fmt.Printf("result of search component %v", cmp)
+		// fmt.Printf("result of search component \n%v\n", cmps)
+
+		for _, cmp := range *cmps {
+			// fields := make(map[string]string)
+			fields := cmp.GetConvertedFields()
+			fmt.Printf("\nfields:\n %s", fields)
+		}
 	}
 
 }
