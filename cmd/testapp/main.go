@@ -64,10 +64,5 @@ func main() {
 		cmpTypes := model.GetComponentTypeID()
 		fmt.Printf("componentTypes \n%s\n", prettyPrint(cmpTypes))
 
-		// for _, cmp := range *cmps {
-		// 	// fields := make(map[string]string)
-		// 	fields := cmp.GetConvertedFields()
-		// 	fmt.Printf("\nfields:\n %s", fields)
-		// }
 	}
 }

@@ -8,30 +8,37 @@ type Model struct {
 		OutgoingReferenceCount int         `mapstructure:"outgoingReferenceCount"`
 		Persistent             interface{} `mapstructure:"persistent"`
 	} `mapstructure:"ardoq"`
-	ArdoqPersistent     []interface{}       `mapstructure:"ardoq-persistent"`
-	BlankTemplate       bool                `mapstructure:"blankTemplate"`
-	Category            string              `mapstructure:"category"`
-	Common              bool                `mapstructure:"common"`
-	Created             string              `mapstructure:"created"`
-	CreatedBy           string              `mapstructure:"created-by"`
-	CreatedByEmail      string              `mapstructure:"createdByEmail"`
-	CreatedByName       string              `mapstructure:"createdByName"`
-	DefaultViews        []string            `mapstructure:"defaultViews"`
-	Description         string              `mapstructure:"description"`
-	Flexible            bool                `mapstructure:"flexible"`
-	ID                  string              `mapstructure:"_id"`
-	LastUpdated2        string              `mapstructure:"last-updated"`
-	LastModifiedBy      string              `mapstructure:"last-modified-by"`
-	LastModifiedByEmail string              `mapstructure:"lastModifiedByEmail"`
-	LastUpdated         string              `mapstructure:"lastupdated"`
-	MaxReferenceTypeKey int                 `mapstructure:"maxReferenceTypeKey"`
-	Name                string              `mapstructure:"name"`
-	ReferenceTypes      MdoelReferenceTypes `mapstructure:"referenceTypes"`
-	Root                ModelComponentTypes `mapstructure:"root"`
-	StartView           string              `mapstructure:"startView"`
-	UseAsTemplate       bool                `mapstructure:"useAsTemplate"`
-	Version             int                 `mapstructure:"_version"`
-	Workspaces          struct {
+	ArdoqPersistent     []interface{} `mapstructure:"ardoq-persistent"`
+	BlankTemplate       bool          `mapstructure:"blankTemplate"`
+	Category            string        `mapstructure:"category"`
+	Common              bool          `mapstructure:"common"`
+	Created             string        `mapstructure:"created"`
+	CreatedBy           string        `mapstructure:"createdBy"`
+	CreatedBy2          string        `mapstructure:"created-by"`
+	CreatedByEmail      string        `mapstructure:"createdByEmail"`
+	CreatedByName       string        `mapstructure:"createdByName"`
+	DefaultViews        []string      `mapstructure:"defaultViews"`
+	Description         string        `mapstructure:"description"`
+	Flexible            bool          `mapstructure:"flexible"`
+	ID                  string        `mapstructure:"_id"`
+	LastModifiedBy      string        `mapstructure:"lastModifiedBy"`
+	LastModifiedBy2     string        `mapstructure:"last-modified-by"`
+	LastModifiedByEmail string        `mapstructure:"lastModifiedByEmail"`
+	LastModifiedByName  string        `mapstructure:"lastModifiedByName"`
+	LastUpdated         string        `mapstructure:"lastupdated"`
+	LastUpdated2        string        `mapstructure:"last-updated"`
+	MaxReferenceTypeKey int           `mapstructure:"maxReferenceTypeKey"`
+	Name                string        `mapstructure:"name"`
+	Origin              struct {
+		ID      string `mapstructure:"id"`
+		Version int    `mapstructure:"_version"`
+	}
+	ReferenceTypes MdoelReferenceTypes `mapstructure:"referenceTypes"`
+	Root           ModelComponentTypes `mapstructure:"root"`
+	StartView      string              `mapstructure:"startView"`
+	UseAsTemplate  bool                `mapstructure:"useAsTemplate"`
+	Version        int                 `mapstructure:"_version"`
+	Workspaces     struct {
 		Restricted int `mapstructure:"restricted"`
 		UsedBy     []struct {
 			ID                  string `mapstructure:"_id"`
@@ -45,11 +52,9 @@ type Model struct {
 			} `mapstructure:"ardoq"`
 		} `mapstructure:"used-by"`
 	} `mapstructure:"workspaces"`
-	Origin struct {
-		ID      string `mapstructure:"id"`
-		Version int    `mapstructure:"_version"`
-	}
-
+	// Fields, is the safetynet for when mapping the API response to the struct.
+	// The goal is to have all fields documented in the API to have a known field in the struct.
+	// For models, Fields should be null
 	Fields map[string]interface{} `mapstructure:",remain"`
 }
 
