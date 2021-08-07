@@ -18,15 +18,15 @@ type Field struct {
 	} `mapstructure:"dateTimeFields"`
 	DefaultValue        string  `mapstructure:"defaultValue"`
 	Description         string  `mapstructure:"description"`
-	ID                  string  `mapstructure:"_id"`
 	Global              bool    `mapstructure:"global"`
 	GlobalRef           bool    `mapstructure:"globalref"`
+	ID                  string  `mapstructure:"_id"`
 	Label               string  `mapstructure:"label"`
 	LastModifiedBy      string  `mapstructure:"last-modified-by"`
-	LastUpdated2        string  `mapstructure:"last-updated"`
 	LastModifiedByEmail string  `mapstructure:"lastModifiedByEmail"`
 	LastModifiedByName  string  `mapstructure:"lastModifiedByName"`
 	LastUpdated         string  `mapstructure:"lastupdated"`
+	LastUpdated2        string  `mapstructure:"last-updated"`
 	Model               string  `mapstructure:"model"`
 	Name                string  `mapstructure:"name"`
 	Order               float64 `mapstructure:"_order"`

@@ -17,6 +17,7 @@ type Model struct {
 	CreatedBy2          string        `mapstructure:"created-by"`
 	CreatedByEmail      string        `mapstructure:"createdByEmail"`
 	CreatedByName       string        `mapstructure:"createdByName"`
+	CreatedFromTemplate string        `mapstructure:"createdFromTemplate"`
 	DefaultViews        []string      `mapstructure:"defaultViews"`
 	Description         string        `mapstructure:"description"`
 	Flexible            bool          `mapstructure:"flexible"`
