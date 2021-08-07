@@ -18,9 +18,11 @@ type Model struct {
 	CreatedByEmail      string        `mapstructure:"createdByEmail"`
 	CreatedByName       string        `mapstructure:"createdByName"`
 	CreatedFromTemplate string        `mapstructure:"createdFromTemplate"`
+	DefaultSort         string        `mapstructure:"defaultSort"`
 	DefaultViews        []string      `mapstructure:"defaultViews"`
 	Description         string        `mapstructure:"description"`
 	Flexible            bool          `mapstructure:"flexible"`
+	Folder              string        `mapstructure:"folder"`
 	ID                  string        `mapstructure:"_id"`
 	LastModifiedBy      string        `mapstructure:"lastModifiedBy"`
 	LastModifiedBy2     string        `mapstructure:"last-modified-by"`
