@@ -59,6 +59,7 @@ type Client interface {
 	Models() ModelsClient
 	References() ReferencesClient
 	Workspaces() WorkspacesClient
+	Fields() FieldsClient
 }
 
 // OptFunc is a function that sets a setting on a client
@@ -105,6 +106,11 @@ func (c *APIClient) client() *sling.Sling {
 // Components returns a ComponentsClient interface for interacting with Components in Ardoq
 func (c *APIClient) Components() ComponentsClient {
 	return &RESTComponentsClient{client: c}
+}
+
+// Fields returns a FieldsClient interface for interacting with Fields in Ardoq
+func (c *APIClient) Fields() FieldsClient {
+	return &RESTFieldsClient{client: c}
 }
 
 // Models returns a ModelsClient interface for interacting with Models in Ardoq

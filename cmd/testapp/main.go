@@ -44,7 +44,7 @@ func main() {
 	}
 
 	// Test the Model type
-	if true {
+	if false {
 		rootworkspace := "12ef1c9b57a1e67dcf9c7fe1"
 
 		// get workspace by id
@@ -63,6 +63,41 @@ func main() {
 
 		cmpTypes := model.GetComponentTypeID()
 		fmt.Printf("componentTypes \n%s\n", prettyPrint(cmpTypes))
+
+		// for _, cmp := range *cmps {
+		// 	// fields := make(map[string]string)
+		// 	fields := cmp.GetConvertedFields()
+		// 	fmt.Printf("\nfields:\n %s", fields)
+		// }
+	}
+
+	// Test the Fields type
+	if true {
+		// rootworkspace := "12ef1c9b57a1e67dcf9c7fe1"
+
+		// get fields
+		fields, err := a.Fields().GetAll(context.TODO())
+		if err != nil {
+			fmt.Printf("error during get fields: %s", err)
+		}
+		// fmt.Printf("result of get all fields \n%s\n", prettyPrint(fields))
+
+		for _, field := range *fields {
+			if len(field.Fields) > 0 {
+				fmt.Printf("field found with non empty Fields \n%s\n", prettyPrint(field))
+			}
+		}
+
+		// fieldID := "7391a71024c8f0480fb998a5"
+		fieldID := "9e38c3b6b82e6cfefdb915db"
+		field, err := a.Fields().Read(context.TODO(), fieldID)
+		if err != nil {
+			fmt.Printf("error during get field: %s", err)
+		}
+		fmt.Printf("result of get field \n%s\n", prettyPrint(field))
+
+		// cmpTypes := model.GetComponentTypeID()
+		// fmt.Printf("componentTypes \n%s\n", prettyPrint(cmpTypes))
 
 		// for _, cmp := range *cmps {
 		// 	// fields := make(map[string]string)
