@@ -2,11 +2,17 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"os"
 
 	ardoq "github.com/mories76/ardoq-client-go/pkg"
 )
+
+func prettyPrint(i interface{}) string {
+	s, _ := json.MarshalIndent(i, "", "\t")
+	return string(s)
+}
 
 func main() {
 	baseUri := os.Getenv("ARDOQ_BASEURI")
@@ -20,7 +26,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	if true {
+	// Test search component
+	if false {
 		workspace := "d85f9d74393dd8cb053e7e09"
 		name := "myTerraformComponent2"
 		cmps, err := a.Components().Search(context.TODO(), &ardoq.ComponentSearchQuery{Workspace: workspace, Name: name})
@@ -36,4 +43,31 @@ func main() {
 		}
 	}
 
+	// Test the Model type
+	if true {
+		rootworkspace := "12ef1c9b57a1e67dcf9c7fe1"
+
+		// get workspace by id
+		workspace, err := a.Workspaces().Get(context.TODO(), rootworkspace)
+		if err != nil {
+			fmt.Printf("error during get workspace: %s", err)
+		}
+		// set componentModel to the componentModel from the found workspace
+		componentModel := workspace.ComponentModel
+
+		model, err := a.Models().Read(context.TODO(), componentModel)
+		if err != nil {
+			fmt.Printf("error during get model: %s", err)
+		}
+		fmt.Printf("result of get model \n%s\n", prettyPrint(model))
+
+		cmpTypes := model.GetComponentTypeID()
+		fmt.Printf("componentTypes \n%s\n", prettyPrint(cmpTypes))
+
+		// for _, cmp := range *cmps {
+		// 	// fields := make(map[string]string)
+		// 	fields := cmp.GetConvertedFields()
+		// 	fmt.Printf("\nfields:\n %s", fields)
+		// }
+	}
 }
