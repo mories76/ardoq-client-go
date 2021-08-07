@@ -8,29 +8,29 @@ type Model struct {
 		OutgoingReferenceCount int         `mapstructure:"outgoingReferenceCount"`
 		Persistent             interface{} `mapstructure:"persistent"`
 	} `mapstructure:"ardoq"`
-	ArdoqPersistent     []interface{}  `mapstructure:"ardoq-persistent"`
-	BlankTemplate       bool           `mapstructure:"blankTemplate"`
-	Category            string         `mapstructure:"category"`
-	Common              bool           `mapstructure:"common"`
-	Created             string         `mapstructure:"created"`
-	CreatedBy           string         `mapstructure:"created-by"`
-	CreatedByEmail      string         `mapstructure:"createdByEmail"`
-	CreatedByName       string         `mapstructure:"createdByName"`
-	DefaultViews        []string       `mapstructure:"defaultViews"`
-	Description         string         `mapstructure:"description"`
-	Flexible            bool           `mapstructure:"flexible"`
-	ID                  string         `mapstructure:"_id"`
-	LastUpdated2        string         `mapstructure:"last-updated"`
-	LastModifiedBy      string         `mapstructure:"last-modified-by"`
-	LastModifiedByEmail string         `mapstructure:"lastModifiedByEmail"`
-	LastUpdated         string         `mapstructure:"lastupdated"`
-	MaxReferenceTypeKey int            `mapstructure:"maxReferenceTypeKey"`
-	Name                string         `mapstructure:"name"`
-	ReferenceTypes      ReferenceTypes `mapstructure:"referenceTypes"`
-	Root                ComponentTypes `mapstructure:"root"`
-	StartView           string         `mapstructure:"startView"`
-	UseAsTemplate       bool           `mapstructure:"useAsTemplate"`
-	Version             int            `mapstructure:"_version"`
+	ArdoqPersistent     []interface{}       `mapstructure:"ardoq-persistent"`
+	BlankTemplate       bool                `mapstructure:"blankTemplate"`
+	Category            string              `mapstructure:"category"`
+	Common              bool                `mapstructure:"common"`
+	Created             string              `mapstructure:"created"`
+	CreatedBy           string              `mapstructure:"created-by"`
+	CreatedByEmail      string              `mapstructure:"createdByEmail"`
+	CreatedByName       string              `mapstructure:"createdByName"`
+	DefaultViews        []string            `mapstructure:"defaultViews"`
+	Description         string              `mapstructure:"description"`
+	Flexible            bool                `mapstructure:"flexible"`
+	ID                  string              `mapstructure:"_id"`
+	LastUpdated2        string              `mapstructure:"last-updated"`
+	LastModifiedBy      string              `mapstructure:"last-modified-by"`
+	LastModifiedByEmail string              `mapstructure:"lastModifiedByEmail"`
+	LastUpdated         string              `mapstructure:"lastupdated"`
+	MaxReferenceTypeKey int                 `mapstructure:"maxReferenceTypeKey"`
+	Name                string              `mapstructure:"name"`
+	ReferenceTypes      MdoelReferenceTypes `mapstructure:"referenceTypes"`
+	Root                ModelComponentTypes `mapstructure:"root"`
+	StartView           string              `mapstructure:"startView"`
+	UseAsTemplate       bool                `mapstructure:"useAsTemplate"`
+	Version             int                 `mapstructure:"_version"`
 	Workspaces          struct {
 		Restricted int `mapstructure:"restricted"`
 		UsedBy     []struct {
@@ -53,86 +53,56 @@ type Model struct {
 	Fields map[string]interface{} `mapstructure:",remain"`
 }
 
-// func (c Model) GetFields() map[string]interface{} {
-// 	if len(c.Fields) > 0 {
-// 		return c.Fields
-// 	}
-// 	return nil
-// }
-
-// ReferenceTypes child of Model struct
-type ReferenceTypes map[string]struct {
+// MdoelReferenceTypes child of Model struct
+type MdoelReferenceTypes map[string]struct {
 	Name string `mapstructure:"name"`
 	ID   string `mapstructure:"id"`
 }
 
-// ComponentType child of Model struct
-type ComponentType struct {
-	Children     ComponentTypes `mapstructure:"children"`
-	Color        string         `mapstructure:"color"`
-	Icon         string         `mapstructure:"icon"`
-	ID           string         `mapstructure:"id"`
-	Image        string         `mapstructure:"image"`
-	Index        string         `mapstructure:"index"`
-	Level        string         `mapstructure:"level"`
-	Name         string         `mapstructure:"name"`
-	ReturnsValue string         `mapstructure:"returnsValue"`
-	Shape        string         `mapstructure:"shape"`
-	Standard     string         `mapstructure:"standard"`
+// ModelComponentTypes child of Model struct
+type ModelComponentTypes map[string]struct {
+	Children     ModelComponentTypes `mapstructure:"children"`
+	Color        string              `mapstructure:"color"`
+	Icon         string              `mapstructure:"icon"`
+	ID           string              `mapstructure:"id"`
+	Image        string              `mapstructure:"image"`
+	Index        string              `mapstructure:"index"`
+	Level        string              `mapstructure:"level"`
+	Name         string              `mapstructure:"name"`
+	ReturnsValue string              `mapstructure:"returnsValue"`
+	Shape        string              `mapstructure:"shape"`
+	Standard     string              `mapstructure:"standard"`
 }
 
-// ComponentTypes child of Model struct
-// TODO: Check if this can be a slice of ComponentType
-type ComponentTypes map[string]struct {
-	Children     ComponentTypes `mapstructure:"children"`
-	Color        string         `mapstructure:"color"`
-	Icon         string         `mapstructure:"icon"`
-	ID           string         `mapstructure:"id"`
-	Image        string         `mapstructure:"image"`
-	Index        string         `mapstructure:"index"`
-	Level        string         `mapstructure:"level"`
-	Name         string         `mapstructure:"name"`
-	ReturnsValue string         `mapstructure:"returnsValue"`
-	Shape        string         `mapstructure:"shape"`
-	Standard     string         `mapstructure:"standard"`
-}
+// componentTypeGetChildren walks the tree of ModelComponentTypes starting from the Model.Root
+func componentTypeGetChildren(componentTypes ModelComponentTypes) map[string]string {
+	// create result type
+	result := make(map[string]string)
 
-// GetComponentTypes this function is not being used yet.
-// TODO: figure out the correct terraform provider schema
-func (m Model) GetComponentTypes() map[string]ComponentType {
-	result := make(map[string]ComponentType)
+	// for each ComponentType (ct) in these componentTypes
+	for _, ct := range componentTypes {
+		// add Name and ID to result
+		result[ct.Name] = ct.ID
 
-	for _, v := range m.Root {
-		result[v.Name] = v
-	}
-	return result
-}
-
-// FIX this doesn't seem very efficient
-func componentTypeGetChildren(root ComponentTypes) map[string]string {
-	ComponentTypes := make(map[string]string)
-	for _, r := range root {
-		ComponentTypes[r.Name] = r.ID
-		if len(r.Children) > 0 {
-			for k, v := range componentTypeGetChildren(r.Children) {
-				//
-				ComponentTypes[k] = v
+		// check if this branch has children
+		if len(ct.Children) > 0 {
+			// get rescursive children and loop
+			for k, v := range componentTypeGetChildren(ct.Children) {
+				// add k,v => Name and ID to the result
+				result[k] = v
 			}
 		}
 	}
-	return ComponentTypes
+
+	return result
 }
 
 // GetComponentTypeID returns a flattend map[string]string of name and ID for all the componentTypes
+// the respone from the Ardoq model reflects the structure of the metamodel
+// so there is a tree of N levels deep of "ModelComponentTypes"
+// this function returns something like
+// returnvalue["componentName"] = "componentID"
 func (m Model) GetComponentTypeID() map[string]string {
-	// result := make(map[string]string)
-
-	// TODO make this function traverse the root until v.Name is found
-	// for example model 19ea590239001b064dbc878d and component p1575623714660
-	// for _, v := range m.Root {
-	// 	result[v.Name] = v.ID
-	// }
-
 	return componentTypeGetChildren(m.Root)
 }
 
