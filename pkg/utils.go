@@ -30,8 +30,12 @@ func removeNulls(m map[string]interface{}) {
 func typeConversion(m map[string]interface{}) map[string]string {
 	result := make(map[string]string)
 	for k, v := range m {
-		fmt.Printf("conversion for %s from '%T'\n", k, v)
-		// option 1
+
+		// the switch on v.(type) is still here, apparantly, so far,
+		// all interfaces can be converted using the default switch
+		// TODO catch the type []interface{} to return something like a
+		// comma seperated string, the items in the slice are now returned
+		// as "item 1 item2" so seperated by a space
 		switch v := v.(type) {
 		// case string:
 		// 	result[k] = v
@@ -40,14 +44,9 @@ func typeConversion(m map[string]interface{}) map[string]string {
 		// case int:
 		// 	result[k] = "type was int"
 		default:
-			fmt.Printf("lets try default conversion for %s from '%T'\n", k, v)
 			result[k] = fmt.Sprint(v)
 		}
 
-		// // option 2
-		// if v, ok := v.([]string); ok {
-		// 	m[k] = v
-		// }
 	}
 
 	return result
