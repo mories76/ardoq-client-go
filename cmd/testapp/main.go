@@ -63,11 +63,24 @@ func main() {
 
 		cmpTypes := model.GetComponentTypeID()
 		fmt.Printf("componentTypes \n%s\n", prettyPrint(cmpTypes))
+	}
 
+	// Test the Model type for non empty fields
+	if true {
+		models, err := a.Models().GetAll(context.TODO())
+		if err != nil {
+			fmt.Printf("error during get models: %s", err)
+		}
+
+		for _, model := range *models {
+			if len(model.Fields) > 0 {
+				fmt.Printf("model found with non empty Fields \n%s\n", prettyPrint(model))
+			}
+		}
 	}
 
 	// Test the Fields type
-	if true {
+	if false {
 		// rootworkspace := "12ef1c9b57a1e67dcf9c7fe1"
 
 		// get fields
