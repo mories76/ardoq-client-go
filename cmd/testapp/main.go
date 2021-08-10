@@ -27,7 +27,7 @@ func main() {
 	}
 
 	// Test search component
-	if false {
+	if true {
 		workspace := "d85f9d74393dd8cb053e7e09"
 		name := "myTerraformComponent2"
 		cmps, err := a.Components().Search(context.TODO(), &ardoq.ComponentSearchQuery{Workspace: workspace, Name: name})
@@ -66,7 +66,7 @@ func main() {
 	}
 
 	// Test the Model type for non empty fields
-	if true {
+	if false {
 		models, err := a.Models().GetAll(context.TODO())
 		if err != nil {
 			fmt.Printf("error during get models: %s", err)
