@@ -1,4 +1,4 @@
 /.vscode
 /_stuff
-/testApp
 .DS_Store
+cmd/testapp/testapp
