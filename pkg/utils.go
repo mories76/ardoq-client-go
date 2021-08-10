@@ -3,6 +3,7 @@ package ardoq
 import (
 	"fmt"
 	"reflect"
+	"strings"
 )
 
 // this function uses reflection and type assertion
@@ -43,6 +44,14 @@ func typeConversion(m map[string]interface{}) map[string]string {
 		// 	result[k] = strings.Join(v, ",")
 		// case int:
 		// 	result[k] = "type was int"
+		case []interface{}:
+			// convert the Ardoq field op type "Select multiple list"
+			// to a comma seperated space
+			tmpSlice := make([]string, 0)
+			for _, item := range v {
+				tmpSlice = append(tmpSlice, fmt.Sprint(item))
+			}
+			result[k] = strings.Join(tmpSlice, ", ")
 		default:
 			result[k] = fmt.Sprint(v)
 		}
