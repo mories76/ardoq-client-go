@@ -9,6 +9,7 @@ type Component struct {
 		OutgoingReferenceCount int         `mapstructure:"outgoingReferenceCount"`
 	} `mapstructure:"ardoq"`
 	Children            []string    `mapstructure:"children"`
+	Color               string      `mapstructure:"color"`
 	ComponentKey        string      `mapstructure:"component-key"`
 	Created             string      `mapstructure:"created"`
 	CreatedBy           string      `mapstructure:"created-by"`
